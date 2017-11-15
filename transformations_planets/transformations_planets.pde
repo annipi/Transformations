@@ -6,9 +6,10 @@ PImage bg;
 PImage sun;
 PImage planet;
 PImage moon;
+boolean rFlag = false;
 
 void setup() {
-  size(740, 463, P2D);
+  size(740, 463, P3D);
   bg = loadImage("universe.jpg");
   sun = loadImage("sun.jpg");  
   planet = loadImage("planet.jpg");
@@ -18,8 +19,16 @@ void setup() {
 void draw() {
   background(bg);  
   noStroke();
+  
+  
   // Translate to center of window to draw the sun.
   translate(width/2, height/2);
+  
+  camera(0, 0, mouseY, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+  if(rFlag){
+    rotateX(mouseY/100.0);
+    rotateY(mouseX/100.0);
+  }
   //fill(96);
   createEllipse(100,sun);
 
@@ -52,7 +61,12 @@ void draw() {
 }
 
 void createEllipse(float s, PImage img){
-  PShape sh = createShape(ELLIPSE, 0, 0, s, s);
+  PShape sh = createShape(SPHERE, s/2);
   sh.setTexture(img);
   shape(sh);
+}
+
+void keyPressed() {
+  if(key == 'r' || key == 'R')
+    rFlag =!rFlag;
 }
